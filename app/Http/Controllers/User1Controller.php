@@ -9,7 +9,7 @@ use App\Traits\ApiResponser;
 use DB;
 use App\Services\User1Service;
 
-class UserController extends Controller
+class User1Controller extends Controller
 {
     use ApiResponser;
     private $request;

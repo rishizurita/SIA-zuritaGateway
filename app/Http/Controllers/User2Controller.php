@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 use DB;
 
-class UserController extends Controller
+class User2Controller extends Controller
 {
     use ApiResponser;
     private $request;
