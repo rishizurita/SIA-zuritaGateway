@@ -2,29 +2,39 @@
 
 namespace App\Http\Controllers;
 
-//use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Http\Request;
-use App\Traits\ApiResponser;
+use Illuminate\Http\Response; 
+use Illuminate\Http\Request; 
+use App\Traits\ApiResponser; 
 use DB;
-use App\Services\User1Service;
+use App\Services\User1Service; 
 
 class User1Controller extends Controller
 {
     use ApiResponser;
-    private $request;
 
-    public function __construct(Request $request)
+    /**
+    * The service to consume the User1 Microservice
+    * @var User1Service
+    */
+    public $user1Service;
+
+    /**
+    * Create a new controller instance
+    */
+    public function __construct(User1Service $user1Service)
     {
-        $this->request = $request;
+        $this->user1Service = $user1Service;
+    }
+
+    /**
+    * Return the list of users from Site1
+    */
+    public function index()
+    {
+        return $this->successResponse($this->user1Service->obtainUsers1());
     }
 
     public function getUsers()
-    {
-        
-    }
-
-    public function index()
     {
         
     }
