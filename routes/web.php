@@ -34,5 +34,4 @@ $router->put('/users2/{id}', 'User2Controller@update');
 $router->patch('/users2/{id}', 'User2Controller@update');
 $router->delete('/users2/{id}', 'User2Controller@delete');
 
-$router->get('/users1', 'User1Controller@index');
-$router->get('/users2', 'User2Controller@index');
+

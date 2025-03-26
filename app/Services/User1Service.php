@@ -24,4 +24,25 @@ class User1Service
         return $this->performRequest('GET', '/users'); 
         // This will call GET localhost:8000/users (our Site1)
     }
+
+    public function createUser1($data)
+    {
+        return $this->performRequest('POST', '/users', $data);
+    }
+
+    public function obtainUser1($id)
+    {
+    return $this->performRequest('GET', "/users/{$id}");
+    }
+
+    public function editUser1($data, $id)
+    {
+    return $this->performRequest('PUT', "/users/{$id}", $data);
+    }
+
+    public function deleteUser1($id)
+    {
+    return $this->performRequest('DELETE', "/users/{$id}");
+    }
+
 }
