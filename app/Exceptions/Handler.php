@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof HttpException) {
             $code = $exception->getStatusCode();
-            $message = Response::statusTexts[$code];
+            $message = Response::$statusTexts[$code];
 
             return $this->errorResponse($message, $code);
         }
