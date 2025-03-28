@@ -19,11 +19,13 @@ trait ApiResponser
     }
 
     public function errorResponse($message, $code)
+{
+    $response = is_array($message) ? $message : ['error' => $message];
+    $response['code'] = $code;
 
-    {
-        return response()->json(['error' => $message, 'code' => $code],
-        $code);
-    }
+    return response()->json($response, $code);
+}
+
 
     public function errorMessage($message, $code)
     {

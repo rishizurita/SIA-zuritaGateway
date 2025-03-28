@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Auth\AuthenticationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -77,16 +78,18 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AuthorizationException) {
             return $this->errorResponse($exception->getMessage(), Response::HTTP_FORBIDDEN);
         }
-
         if ($exception instanceof AuthenticationException) {
-            return $this->errorResponse($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
-        }
+            // Determine the site number
+            $siteNumber = $request->is('users1*') ? 1 : ($request->is('users2*') ? 2 : null);
 
-        if ($exception instanceof ClientException) {
-            $message = $exception->getResponse()->getBody();
-            $code = $exception->getCode();
-            return $this->errorMessage($message,200);
-            }
+        
+            return $this->errorResponse([
+                'error' => "Unauthorized",
+                'code' => Response::HTTP_UNAUTHORIZED,
+                'site' => $siteNumber
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+        
 
         if (env('APP_DEBUG', false)) {
             return parent::render($request, $exception);
