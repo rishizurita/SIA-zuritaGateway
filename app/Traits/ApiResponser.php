@@ -23,7 +23,7 @@ trait ApiResponser
     $response = is_array($message) ? $message : ['error' => $message];
     $response['code'] = $code;
 
-    return response()->json($response, $code);
+    return response()->json($response, $code); 
 }
 
 
