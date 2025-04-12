@@ -12,13 +12,18 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+// Enable facades (needed for response() and other Laravel-style helpers)
 $app->withFacades();
+
+// Enable Eloquent ORM
 $app->withEloquent();
 
+// Load config files
 $app->configure('services');
 $app->configure('auth');
 $app->configure('app');
 
+// Bind exception handler and console kernel
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
@@ -29,20 +34,24 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-// Register route middleware, including the new gateway authentication middleware.
+// Route middleware
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
     'gateway.auth' => App\Http\Middleware\GatewayAuthenticate::class,
 ]);
 
-// Register Service Providers
+// Register service providers
 $app->register(App\Providers\AuthServiceProvider::class);
 
-// Remove any Passport providers:
-// $app->register(Laravel\Passport\PassportServiceProvider::class);
-// $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
+// OPTIONAL: Bind Response class if you're using it directly
+$app->bind(Illuminate\Contracts\Routing\ResponseFactory::class, function ($app) {
+    return new Illuminate\Routing\ResponseFactory(
+        $app['Illuminate\Contracts\View\Factory'],
+        $app['Illuminate\Routing\Redirector']
+    );
+});
 
-// Register your routes:
+// Register your routes
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
