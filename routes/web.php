@@ -29,3 +29,4 @@ $router->group(['middleware' => 'gateway.auth'], function () use ($router) {
 $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('/users/me', 'UserController@me');
 });
+
